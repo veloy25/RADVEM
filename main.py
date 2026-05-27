@@ -89,8 +89,8 @@ while True:
         # Atualiza ângulo (varredura)
         angulo += 5 * direcao
 
-        if angulo >= 90:
-            angulo = 90
+        if angulo >= 150:
+            angulo = 150
             direcao = -1
         elif angulo <= 0:
             angulo = 0
