@@ -1,3 +1,8 @@
+Nomes/RAs:
+Gabriel Barrochelo; 22.10193-4
+Ruth Romeu Ramos; 22.01003-3
+Vinícius Eloy Araujo; 22.01026-2
+
 ## 🔌 Conexões físicas
 ### 🎛️ Botão
 GPIO 1 → botão  
