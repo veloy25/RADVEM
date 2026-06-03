@@ -1,7 +1,12 @@
-Nomes/RAs:
+
+
+##Nomes/RAs:
 Gabriel Barrochelo; 22.10193-4
 Ruth Romeu Ramos; 22.01003-3
 Vinícius Eloy Araujo; 22.01026-2
+
+## Link do vídeo
+https://mauabr-my.sharepoint.com/:v:/g/personal/22_01026-2_maua_br/IQCVvv75TYhwQJXoWr_qHLo0AcjH3mTAMmMyXW0rdlmhDQ0?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=1gfOAm
 
 ## 🔌 Conexões físicas
 ### 🎛️ Botão
