@@ -1,12 +1,10 @@
+```python
 import time
 import math
 from datetime import datetime
 
 from gpiozero import Button, Servo, DistanceSensor
 from gpiozero.pins.lgpio import LGPIOFactory
-
-from luma.core.interface.serial import i2c
-from luma.oled.device import ssd1306
 
 
 # ============================================================
@@ -20,9 +18,6 @@ TRIG_GPIO = 23
 ECHO_GPIO = 24
 
 SERVO_GPIO = 18
-
-I2C_PORT = 1
-I2C_ADDRESS = 0x3C
 
 
 # ============================================================
@@ -94,18 +89,6 @@ sensor = DistanceSensor(
 
 
 # ============================================================
-# OLED SSD1306
-# ============================================================
-
-serial = i2c(
-    port=I2C_PORT,
-    address=I2C_ADDRESS
-)
-
-oled = ssd1306(serial)
-
-
-# ============================================================
 # ESTADO DO RADAR
 # ============================================================
 
@@ -127,6 +110,11 @@ def alternar_radar():
     global ativo
 
     ativo = not ativo
+
+    if ativo:
+        print("Radar: ON")
+    else:
+        print("Radar: OFF")
 
 
 botao.when_pressed = alternar_radar
@@ -275,85 +263,6 @@ def inicializar_arquivo():
 
 
 # ============================================================
-# OLED
-# ============================================================
-
-def atualizar_oled(distancia):
-
-    oled.clear()
-
-    if ativo:
-
-        oled.text(
-            "Radar: ON",
-            0,
-            0
-        )
-
-    else:
-
-        oled.text(
-            "Radar: OFF",
-            0,
-            0
-        )
-
-        oled.text(
-            "Aperte o botao",
-            0,
-            10
-        )
-
-
-    oled.text(
-        "Ang:",
-        0,
-        20
-    )
-
-    oled.text(
-        str(angulo),
-        40,
-        20
-    )
-
-
-    oled.text(
-        "Dist:",
-        0,
-        40
-    )
-
-    if distancia is not None:
-
-        oled.text(
-            f"{distancia:.1f}",
-            50,
-            40
-        )
-
-    else:
-
-        oled.text(
-            "--",
-            50,
-            40
-        )
-
-
-    if bloqueado:
-
-        oled.text(
-            "STOP",
-            80,
-            0
-        )
-
-
-    oled.show()
-
-
-# ============================================================
 # PROGRAMA PRINCIPAL
 # ============================================================
 
@@ -453,13 +362,6 @@ try:
             servo.detach()
 
 
-        # ----------------------------------------------------
-        # OLED
-        # ----------------------------------------------------
-
-        atualizar_oled(distancia)
-
-
         time.sleep(0.01)
 
 
@@ -471,6 +373,4 @@ except KeyboardInterrupt:
 finally:
 
     servo.detach()
-
-    oled.clear()
-    oled.show()
+```
