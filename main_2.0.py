@@ -1,4 +1,3 @@
-```python
 import time
 import math
 from datetime import datetime
@@ -475,4 +474,3 @@ finally:
 
     oled.clear()
     oled.show()
-```
