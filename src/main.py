@@ -1,4 +1,5 @@
 from radar import Radar
+import config
 
 
 def nova_deteccao(detection):
@@ -12,9 +13,17 @@ def nova_deteccao(detection):
 
 
 def main():
+    print("================================")
+    print("CONFIGURAÇÃO CARREGADA")
+    print("================================")
+    print(f"DETECTION_DISTANCE_CM = {config.DETECTION_DISTANCE_CM}")
+    print(f"ANGLE_MIN = {config.ANGLE_MIN}")
+    print(f"ANGLE_MAX = {config.ANGLE_MAX}")
+    print(f"ANGLE_STEP = {config.ANGLE_STEP}")
+    print("================================\n")
+
     radar = Radar()
 
-    # Define o que acontece quando uma detecção é encontrada
     radar.on_detection = nova_deteccao
 
     try:
