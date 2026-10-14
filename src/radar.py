@@ -43,6 +43,7 @@ class Radar:
             trigger=config.TRIG_GPIO,
             echo=config.ECHO_GPIO,
             max_distance=config.DETECTION_DISTANCE_CM / 100.0,
+            threshold_distance=0.1,
             pin_factory=self.factory
         )
 

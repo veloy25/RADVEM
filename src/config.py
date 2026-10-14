@@ -4,6 +4,7 @@
 
 # ----------------------------
 # GPIO - BCM
+
 # ----------------------------
 
 SERVO_GPIO = 18
@@ -24,7 +25,7 @@ ANGLE_STEP = 5
 SWEEP_TIME = 1.0
 
 # Distância máxima considerada uma detecção
-DETECTION_DISTANCE_CM = 100.0
+DETECTION_DISTANCE_CM = 20.0
 
 
 # ----------------------------
