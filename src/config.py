@@ -52,5 +52,7 @@ FADEOUT_TIME = 3.0
 # ----------------------------
 
 API_URL = "http://SEU_SERVIDOR/detections"
+API_ENABLED = False
+API_TIMEOUT_SECONDS = 5
 
 RADAR_ID = "RADVEM-001"

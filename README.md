@@ -1,56 +1,67 @@
+# RADVEM
 
+Radar didatico com varredura eletromecanica, desenvolvido para Raspberry Pi 4
+Model B.
 
-## Nomes/RAs:
-Gabriel Barrochelo; 22.10193-4
-Ruth Romeu Ramos; 22.01003-3
-Vinícius Eloy Araujo; 22.01026-2
+## Equipe
 
-## Link do vídeo
-https://mauabr-my.sharepoint.com/:v:/g/personal/22_01026-2_maua_br/IQCVvv75TYhwQJXoWr_qHLo0AcjH3mTAMmMyXW0rdlmhDQ0?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=1gfOAm
+- Gabriel Barrochelo; 22.10193-4
+- Ruth Romeu Ramos; 22.01003-3
+- Vinicius Eloy Araujo; 22.01026-2
 
-## 🔌 Conexões físicas
-### 🎛️ Botão
-GPIO 1 → botão  
-Outro terminal do botão → 3.3V  
-Utilizando PULL_DOWN interno do Pico  
-### 📟 Display OLED (SSD1306 - I2C)
-GPIO 4 (SDA) → SDA do display  
-GPIO 5 (SCL) → SCL do display  
-3.3V → VCC  
-GND → GND  
-### 🔄 Servo Motor (SG90)
-GPIO 15 → sinal (fio laranja/amarelo)  
-Fonte externa 5V → VCC (fio vermelho)  
-GND da fonte → GND (fio marrom/preto)  
+## Apresentacao
 
-### ⚠️ Observações:
-Servo alimentado externamente  
-GND da fonte conectado ao GND do Pico (obrigatório)  
-### 📡 Sensor Ultrassônico (HC-SR04)
-Lado do sensor:  
-GPIO 2 → TRIG  
-ECHO → conversor de nível lógico (lado 5V)  
-5V → VCC  
-GND → GND  
-### 🔁 Conversor de nível lógico (3.3V ↔ 5V)
-HV (High Voltage) → 5V  
-LV (Low Voltage) → 3.3V  
-GND → GND comum  
-Sinais:  
-ECHO (sensor) → HV (entrada 5V)  
-LV (saída convertida) → GPIO 3 do Pico  
+[Video do projeto](https://mauabr-my.sharepoint.com/:v:/g/personal/22_01026-2_maua_br/IQCVvv75TYhwQJXoWr_qHLo0AcjH3mTAMmMyXW0rdlmhDQ0?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=1gfOAm)
 
-👉 TRIG não precisa passar pelo conversor (3.3V já é suficiente para o sensor)  
+## Hardware
 
-### 🔗 GND comum (essencial)
+O codigo usa numeracao BCM:
 
-Todos os GNDs devem estar conectados:  
-Pico  
-Fonte do servo  
-Sensor ultrassônico  
-Display  
-Conversor de nível lógico  
+- GPIO 18: sinal do servo SG90.
+- GPIO 23: TRIG do HC-SR04.
+- GPIO 24: ECHO do HC-SR04, conectado por divisor/conversor de nivel de 5 V
+  para 3.3 V.
+- GND comum entre Raspberry Pi, sensor e fonte externa do servo.
+- Alimentar o servo por uma fonte externa de 5 V; nao alimentar o servo pelo
+  pino 3.3 V do Raspberry Pi.
+- A interface deste software e grafica (Tkinter), exibida em monitor conectado
+  ao Raspberry Pi. O display OLED e o botao fisico descritos em documentos
+  anteriores nao sao usados pelo software atual.
 
+Confirme a pinagem antes de ligar o circuito. Nunca conecte o ECHO de 5 V
+diretamente ao GPIO do Raspberry Pi.
 
-<img width="1920" height="1080" alt="Quadro Branco de Diagrama de Planejamento de Fluxo de Trabalho em Roxo Azul Estilo Moderno Profissional" src="https://github.com/user-attachments/assets/64be7fb4-6607-4b64-8eed-249249a4be1a" />
+## Instalacao e execucao
 
+Use Raspberry Pi OS com ambiente grafico e Python 3. Instale as dependencias
+de hardware disponibilizadas pelo sistema (`gpiozero` e `lgpio`) e o Tkinter
+para a versao de Python utilizada.
+
+Na raiz deste repositorio:
+
+```sh
+python3 src/main.py
+```
+
+A janela apresenta a varredura e deteccoes recentes. Use o botao para iniciar
+ou parar a aquisicao; fechar a janela encerra os recursos do radar.
+
+Os testes automatizados que nao exigem hardware podem ser executados na raiz:
+
+```sh
+python3 -m unittest discover -s tests -v
+```
+
+## API
+
+O cliente HTTP e executado em uma thread separada, mas a integracao permanece
+desativada por padrao (`API_ENABLED = False` em `src/config.py`). Antes de
+ativa-la, configure a URL real e confirme com o backend o contrato do JSON,
+autenticacao e respostas esperadas. O cliente envia o evento completo em JSON,
+usa timeout configuravel e registra falhas; nao faz repeticoes nem grava fila
+em disco.
+
+## Mais contexto
+
+Consulte `RADVEM_ARQUITETURA_SOFTWARE.md` no diretorio pai para decisoes de
+arquitetura, comportamento esperado e plano de desenvolvimento.
