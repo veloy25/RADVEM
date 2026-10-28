@@ -46,6 +46,17 @@ python3 src/main.py
 A janela apresenta a varredura e deteccoes recentes. Use o botao para iniciar
 ou parar a aquisicao; fechar a janela encerra os recursos do radar.
 
+Para abrir a interface sem Raspberry Pi, servo ou sensor, execute em modo de
+simulacao:
+
+```sh
+python3 src/main.py --simulate
+```
+
+O modo de simulacao percorre a mesma interface e logica de varredura com tres
+alvos sinteticos. Ele nao simula eletricamente o GPIO nem o comportamento
+fisico do servo e do sensor. A execucao normal continua usando o hardware.
+
 Os testes automatizados que nao exigem hardware podem ser executados na raiz:
 
 ```sh
@@ -60,6 +71,12 @@ ativa-la, configure a URL real e confirme com o backend o contrato do JSON,
 autenticacao e respostas esperadas. O cliente envia o evento completo em JSON,
 usa timeout configuravel e registra falhas; nao faz repeticoes nem grava fila
 em disco.
+
+O corpo enviado para cada deteccao contem `angle_degrees`, `distance_cm`,
+`x_cm` e `y_cm`. As coordenadas em centimetros sao calculadas a partir do
+angulo e da distancia medidas; `x_cm` usa o cosseno e `y_cm` usa o seno do
+angulo (eixo Y positivo para cima). As coordenadas em pixels, o ID e o horario
+da deteccao nao sao enviados.
 
 ## Mais contexto
 

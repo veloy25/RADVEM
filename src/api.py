@@ -1,5 +1,6 @@
 import json
 import logging
+import math
 import queue
 import threading
 import urllib.error
@@ -61,7 +62,16 @@ class DetectionApi:
                 )
 
     def _post_detection(self, detection):
-        payload = json.dumps(detection).encode("utf-8")
+        angle_degrees = detection["angle_deg"]
+        distance_cm = detection["distance_cm"]
+        angle_radians = math.radians(angle_degrees)
+        api_detection = {
+            "angle_degrees": angle_degrees,
+            "distance_cm": distance_cm,
+            "x_cm": round(distance_cm * math.cos(angle_radians), 1),
+            "y_cm": round(distance_cm * math.sin(angle_radians), 1),
+        }
+        payload = json.dumps(api_detection).encode("utf-8")
         request = urllib.request.Request(
             self.url,
             data=payload,

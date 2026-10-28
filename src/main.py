@@ -1,12 +1,21 @@
+import argparse
 import logging
 
 from api import DetectionApi
 from display import RadarDisplay
-from radar import Radar
+from radar import Radar, SimulatedRadar
 import config
 
 
 def main():
+    parser = argparse.ArgumentParser(description="RADVEM radar")
+    parser.add_argument(
+        "--simulate",
+        action="store_true",
+        help="run with synthetic targets instead of Raspberry Pi hardware",
+    )
+    args = parser.parse_args()
+
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s %(levelname)s %(name)s: %(message)s",
@@ -19,9 +28,10 @@ def main():
     print(f"ANGLE_MAX = {config.ANGLE_MAX}")
     print(f"ANGLE_STEP = {config.ANGLE_STEP}")
     print(f"API_ENABLED = {config.API_ENABLED}")
+    print(f"MODO = {'simulação' if args.simulate else 'hardware'}")
     print("================================\n")
 
-    radar = Radar()
+    radar = SimulatedRadar() if args.simulate else Radar()
     api = None
 
     try:

@@ -2,9 +2,6 @@ import math
 import time
 from datetime import datetime
 
-from gpiozero import Servo, DistanceSensor
-from gpiozero.pins.lgpio import LGPIOFactory
-
 import config
 
 
@@ -15,6 +12,8 @@ import config
 class Radar:
 
     def __init__(self):
+        from gpiozero import Servo, DistanceSensor
+        from gpiozero.pins.lgpio import LGPIOFactory
 
         # ----------------------------------------------------
         # GPIO Factory
@@ -461,3 +460,33 @@ class Radar:
         self.servo.close()
 
         self.factory.close()
+
+
+class SimulatedRadar(Radar):
+    def __init__(self):
+        self.ativo = False
+        self.angulo = config.ANGLE_MIN
+        self.direcao = 1
+        self.detection_id = 0
+        self.on_detection = None
+        self.targets = (
+            (30, 8.0),
+            (75, 14.0),
+            (120, 19.0),
+        )
+
+    def set_angle(self, angle):
+        pass
+
+    def stop(self):
+        self.ativo = False
+
+    def measure_distance(self):
+        tolerance = config.ANGLE_STEP / 2
+        for target_angle, distance in self.targets:
+            if abs(self.angulo - target_angle) <= tolerance:
+                return distance
+        return config.DETECTION_DISTANCE_CM + 1
+
+    def close(self):
+        self.stop()
