@@ -9,9 +9,10 @@ import config
 
 
 class RadarDisplay:
-    def __init__(self, radar, on_detection=None):
+    def __init__(self, radar, on_detection=None, api_toggle=None):
         self.radar = radar
         self.on_detection = on_detection
+        self.api_toggle = api_toggle
         self.root = tk.Tk()
         self.root.title("RADVEM - Radar")
         self.root.geometry(
@@ -53,6 +54,17 @@ class RadarDisplay:
         ttk.Label(controls, textvariable=self.status).pack(
             side="left", padx=12
         )
+
+        self.api_var = tk.BooleanVar(
+            value=api_toggle.is_enabled() if api_toggle is not None else False
+        )
+        self.api_checkbox = ttk.Checkbutton(
+            controls,
+            text="API",
+            variable=self.api_var,
+            command=self._on_api_toggle,
+        )
+        self.api_checkbox.pack(side="left")
 
         self._draw_radar()
         self.radar.on_detection = self._queue_detection
@@ -139,6 +151,14 @@ class RadarDisplay:
             self.radar.start()
         self._update_status()
 
+    def _on_api_toggle(self):
+        if self.api_toggle is None:
+            return
+        if self.api_var.get():
+            self.api_toggle.enable()
+        else:
+            self.api_toggle.disable()
+
     def _update_status(self):
         active = self.radar.is_active()
         if self.scan_failed:
@@ -218,6 +238,8 @@ class RadarDisplay:
 
     def _begin_shutdown(self):
         self.closing.set()
+        if self.api_toggle is not None:
+            self.api_toggle.close()
         self.radar.stop()
         self._finish_shutdown()
 

@@ -1,7 +1,7 @@
 import argparse
 import logging
 
-from api import DetectionApi
+from api_toggle import ApiToggle
 from display import RadarDisplay
 from radar import Radar, SimulatedRadar
 import config
@@ -32,15 +32,13 @@ def main():
     print("================================\n")
 
     radar = SimulatedRadar() if args.simulate else Radar()
-    api = None
+    api_toggle = ApiToggle(
+        config.API_URL,
+        config.API_TIMEOUT_SECONDS,
+        config.API_ENABLED,
+    )
 
     try:
-        if config.API_ENABLED:
-            api = DetectionApi(
-                config.API_URL,
-                timeout_seconds=config.API_TIMEOUT_SECONDS,
-            )
-
         def nova_deteccao(detection):
             print("\n--- DETECÇÃO ---")
             print(f"ID:        {detection['detection_id']}")
@@ -49,19 +47,19 @@ def main():
             print(f"X:         {detection['x']}")
             print(f"Y:         {detection['y']}")
             print(f"Horário:   {detection['timestamp']}")
-            if api is not None:
-                api.submit(detection)
+            api_toggle.submit(detection)
 
         print("RADVEM iniciado. Use o botão da interface para controlar a varredura.")
-        display = RadarDisplay(radar, on_detection=nova_deteccao)
+        display = RadarDisplay(
+            radar, on_detection=nova_deteccao, api_toggle=api_toggle
+        )
         display.run()
 
     finally:
         try:
             radar.close()
         finally:
-            if api is not None:
-                api.close()
+            api_toggle.close()
 
 
 if __name__ == "__main__":

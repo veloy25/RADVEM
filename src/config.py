@@ -52,7 +52,7 @@ FADEOUT_TIME = 3.0
 # ----------------------------
 
 API_URL = "https://r5n6ko20ii.execute-api.us-east-2.amazonaws.com/detections"
-API_ENABLED = True
+API_ENABLED = False
 API_TIMEOUT_SECONDS = 5
 
 RADAR_ID = "RADVEM-001"

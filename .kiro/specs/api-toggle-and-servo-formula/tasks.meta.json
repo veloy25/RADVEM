@@ -1,0 +1,305 @@
+{
+  "pbtResults": {
+    "1. Write bug condition exploration test for API runtime toggle": {
+      "status": "passed",
+      "failingExample": "Exploration test failed as expected on unfixed code, confirming the bug exists. Two counterexamples: (1) ConfigDefaultTests::test_api_enabled_defaults_to_false -> AssertionError: True != False — config.API_ENABLED is True but the README documents it as False (Requirement 1.3). (2) All 10 ApiToggleBugConditionTests -> ModuleNotFoundError: No module named 'api_toggle' — the ApiToggle coordinator class and src/api_toggle.py module do not exist, so there is no enable()/disable()/is_enabled()/submit()/close() toggle, no runtime enable/disable/re-enable path, and no UI widget bound to the API state (Requirements 1.1, 1.2, 2.1, 2.2, 2.3, 2.4). main.py creates DetectionApi only at startup with no close/recreate path; RadarDisplay has no API checkbox.",
+      "lastRunTimestamp": 1793741225259
+    },
+    "2. Write bug condition exploration test for servo angle formula": {
+      "status": "passed",
+      "failingExample": "All 6 tests fail with `AttributeError: type object 'Radar' has no attribute '_angle_to_servo_value'` — confirming the static method does not exist on unfixed code. PBT counterexamples: test_linear_mapping_holds_across_sweep_range(angle=0.0) and test_endpoints_hold_for_random_valid_configs(angle_min=-1.0, angle_max=0.0). The buggy inline formula `(angle / 90.0) - 1.0` yields wrong values: set_angle(150)->0.667 (should be +1.0, Req 1.4/2.6), set_angle(75)->-0.167 (should be 0.0, Req 2.7), set_angle(90)->0.0 (should be 0.2, Req 1.5). The hardcoded 90.0 half-range assumes a 180° sweep centered on 90°.",
+      "lastRunTimestamp": 1793741512656
+    },
+    "3. Write preservation property tests (BEFORE implementing fix)": {
+      "status": "passed",
+      "lastRunTimestamp": 1793741756876
+    },
+    "4.5 Verify API toggle exploration test now passes": {
+      "status": "passed",
+      "lastRunTimestamp": 1793742400493
+    },
+    "5.3 Verify servo exploration test now passes": {
+      "status": "passed",
+      "lastRunTimestamp": 1793744058990
+    }
+  },
+  "executionHistory": {
+    "1. Write bug condition exploration test for API runtime toggle": [
+      {
+        "executionId": "ee4e5f35-7b30-447b-9b3f-c5b03b64e75c",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793740127195
+      },
+      {
+        "executionId": "ee4e5f35-7b30-447b-9b3f-c5b03b64e75c",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793740135542
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793741040694
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793741046534
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793741241435
+      }
+    ],
+    "2. Write bug condition exploration test for servo angle formula": [
+      {
+        "executionId": "ee4e5f35-7b30-447b-9b3f-c5b03b64e75c",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793740127413
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793741247749
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793741535053
+      }
+    ],
+    "3. Write preservation property tests (BEFORE implementing fix)": [
+      {
+        "executionId": "ee4e5f35-7b30-447b-9b3f-c5b03b64e75c",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793740127669
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793741537958
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793741782768
+      }
+    ],
+    "4.1 Change config default to match README": [
+      {
+        "executionId": "ee4e5f35-7b30-447b-9b3f-c5b03b64e75c",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793740127766
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793741789260
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793741901786
+      }
+    ],
+    "4.2 Implement ApiToggle coordinator class": [
+      {
+        "executionId": "ee4e5f35-7b30-447b-9b3f-c5b03b64e75c",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793740127849
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793741910233
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793741995740
+      }
+    ],
+    "4.3 Implement display.py changes (checkbox, handler, shutdown)": [
+      {
+        "executionId": "ee4e5f35-7b30-447b-9b3f-c5b03b64e75c",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793740127923
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793742002431
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793742202998
+      }
+    ],
+    "4.4 Implement main.py wiring": [
+      {
+        "executionId": "ee4e5f35-7b30-447b-9b3f-c5b03b64e75c",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793740128051
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793742205975
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793742342297
+      }
+    ],
+    "4.5 Verify API toggle exploration test now passes": [
+      {
+        "executionId": "ee4e5f35-7b30-447b-9b3f-c5b03b64e75c",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793740128128
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793742344961
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793742408843
+      }
+    ],
+    "4.6 Verify preservation tests still pass": [
+      {
+        "executionId": "ee4e5f35-7b30-447b-9b3f-c5b03b64e75c",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793740128198
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793742411827
+      },
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793742564681
+      },
+      {
+        "executionId": "64a5ff1d-ba75-4568-a6c9-c76d8e5382c9",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793743538838
+      },
+      {
+        "executionId": "64a5ff1d-ba75-4568-a6c9-c76d8e5382c9",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793743541923
+      },
+      {
+        "executionId": "64a5ff1d-ba75-4568-a6c9-c76d8e5382c9",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793743598854
+      }
+    ],
+    "5.1 Implement _angle_to_servo_value static method in Radar": [
+      {
+        "executionId": "ee4e5f35-7b30-447b-9b3f-c5b03b64e75c",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793740128272
+      },
+      {
+        "executionId": "64a5ff1d-ba75-4568-a6c9-c76d8e5382c9",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793743303908
+      },
+      {
+        "executionId": "64a5ff1d-ba75-4568-a6c9-c76d8e5382c9",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793743517744
+      }
+    ],
+    "5.2 Replace hardcoded formula in Radar.set_angle": [
+      {
+        "executionId": "ee4e5f35-7b30-447b-9b3f-c5b03b64e75c",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793740128338
+      },
+      {
+        "executionId": "64a5ff1d-ba75-4568-a6c9-c76d8e5382c9",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793743602419
+      },
+      {
+        "executionId": "64a5ff1d-ba75-4568-a6c9-c76d8e5382c9",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793743705402
+      }
+    ],
+    "5.3 Verify servo exploration test now passes": [
+      {
+        "executionId": "ee4e5f35-7b30-447b-9b3f-c5b03b64e75c",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793740128405
+      },
+      {
+        "executionId": "64a5ff1d-ba75-4568-a6c9-c76d8e5382c9",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793743708332
+      },
+      {
+        "executionId": "64a5ff1d-ba75-4568-a6c9-c76d8e5382c9",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793744075328
+      }
+    ],
+    "5.4 Verify preservation tests still pass": [
+      {
+        "executionId": "ee4e5f35-7b30-447b-9b3f-c5b03b64e75c",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793740128474
+      },
+      {
+        "executionId": "64a5ff1d-ba75-4568-a6c9-c76d8e5382c9",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793744078750
+      },
+      {
+        "executionId": "64a5ff1d-ba75-4568-a6c9-c76d8e5382c9",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793744193523
+      }
+    ],
+    "6. Checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "ee4e5f35-7b30-447b-9b3f-c5b03b64e75c",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793740128542
+      },
+      {
+        "executionId": "64a5ff1d-ba75-4568-a6c9-c76d8e5382c9",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793744197174
+      },
+      {
+        "executionId": "64a5ff1d-ba75-4568-a6c9-c76d8e5382c9",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793744253600
+      }
+    ],
+    "4. Fix for API runtime toggle": [
+      {
+        "executionId": "d02e534a-2d08-478b-bd69-d856144a405e",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793742564745
+      }
+    ],
+    "5. Fix for servo angle formula": [
+      {
+        "executionId": "64a5ff1d-ba75-4568-a6c9-c76d8e5382c9",
+        "chatSessionId": "sess_8fe6f7d5-282b-4d3a-973a-0c38cc8d8041",
+        "timestamp": 1793744193610
+      }
+    ]
+  }
+}
