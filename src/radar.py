@@ -43,6 +43,7 @@ class Radar:
             echo=config.ECHO_GPIO,
             max_distance=config.SENSOR_MAX_DISTANCE_CM / 100.0,
             threshold_distance=0.1,
+            queue_len=1,
             pin_factory=self.factory
         )
 
@@ -325,9 +326,9 @@ class Radar:
         )
 
 
-        # Pequena espera para o servo chegar à posição
+        # Aguarda o servo e um ciclo completo do sensor ultrassônico.
 
-        time.sleep(0.01)
+        time.sleep(0.06)
 
 
         # Mede distância
