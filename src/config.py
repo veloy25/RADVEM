@@ -25,7 +25,7 @@ ANGLE_STEP = 5
 SWEEP_TIME = 1.0
 
 # Distância máxima considerada uma detecção
-DETECTION_DISTANCE_CM = 20.0
+DETECTION_DISTANCE_CM = 50.0
 
 # Alcance máximo medido pelo sensor; deve ser maior que o limite de detecção.
 SENSOR_MAX_DISTANCE_CM = 100.0
