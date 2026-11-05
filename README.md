@@ -6,6 +6,13 @@ distâncias, identifica objetos dentro do limite configurado e apresenta as
 leituras em uma interface gráfica Tkinter. Uma API HTTP pode ser habilitada
 opcionalmente para receber as detecções.
 
+<img width="1296" height="656" alt="image" src="https://github.com/user-attachments/assets/6801af66-e132-4e84-830c-8ba4f0ce44c0" />
+
+<img width="1599" height="899" alt="WhatsApp Image 2026-11-04 at 16 30 53" src="https://github.com/user-attachments/assets/21355bff-03e2-4982-915e-b0a21822f675" />
+
+<img width="1599" height="899" alt="WhatsApp Image 2026-11-04 at 16 31 21" src="https://github.com/user-attachments/assets/ab715620-58b6-48fb-9708-d98c8adf1640" />
+
+
 ## Funcionalidades
 
 - Varredura de ida e volta entre os ângulos configurados, com deteção de
@@ -19,6 +26,11 @@ opcionalmente para receber as detecções.
   físicos.
 
 ## Hardware
+
+<img width="1048" height="667" alt="WhatsApp Image 2026-10-28 at 15 29 54" src="https://github.com/user-attachments/assets/0d895329-4ee7-423f-9c20-4206daa82bed" />
+
+<img width="1599" height="899" alt="WhatsApp Image 2026-11-04 at 16 40 29" src="https://github.com/user-attachments/assets/93eefade-2fd5-4836-8449-9d07356e799c" />
+
 
 O programa usa numeração BCM para os pinos GPIO:
 
@@ -36,8 +48,9 @@ Pi para alimentar o servo. Mantenha os terras em comum e confira a pinagem
 antes de energizar o circuito.
 
 O aplicativo atual usa uma interface gráfica em monitor conectado ao
-Raspberry Pi. Um display OLED e um botão físico mencionados em versões ou
-documentos anteriores não fazem parte do software atual.
+Raspberry Pico 4, um display OLED e um conversor de tensão.
+
+
 
 ## Requisitos
 
@@ -146,6 +159,11 @@ JSON, a autenticação e as respostas esperadas. O cliente não implementa
 autenticação, repetição automática nem fila persistente; falhas de envio são
 registradas no log da aplicação.
 
+
+<img width="1600" height="714" alt="WhatsApp Image 2026-11-04 at 16 32 20" src="https://github.com/user-attachments/assets/756b0975-7c28-4582-ac04-d51a361195d2" />
+
+<img width="1600" height="734" alt="WhatsApp Image 2026-11-04 at 16 31 48" src="https://github.com/user-attachments/assets/b655f14f-20f8-4a8e-8413-f7c521e9c097" />
+
 ## Testes
 
 Execute os testes automatizados na raiz do repositório:
@@ -188,10 +206,9 @@ tests/
 
 ## Apresentação
 
-[Vídeo do projeto](https://mauabr-my.sharepoint.com/:v:/g/personal/22_01026-2_maua_br/IQCVvv75TYhwQJXoWr_qHLo0AcjH3mTAMmMyXW0rdlmhDQ0?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=1gfOAm)
 
 ## Documentação complementar
 
-O documento de arquitetura do workspace está em
-`../RADVEM_ARQUITETURA_SOFTWARE.md`. Ele fica fora deste repositório e pode
-não estar disponível em um clone independente.
+Link para repositório da API: https://github.com/veloy25/RADVEM_API
+
+Link para repositório da aplicação Web: https://github.com/RuthRomeu/RADVEM---FRONT-END
