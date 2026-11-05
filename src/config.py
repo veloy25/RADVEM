@@ -25,7 +25,7 @@ ANGLE_STEP = 5
 SWEEP_TIME = 1.0
 
 # Distância máxima considerada uma detecção
-DETECTION_DISTANCE_CM = 20.0
+DETECTION_DISTANCE_CM = 50.0
 
 # Alcance máximo medido pelo sensor; deve ser maior que o limite de detecção.
 SENSOR_MAX_DISTANCE_CM = 100.0
@@ -51,6 +51,8 @@ FADEOUT_TIME = 3.0
 # API
 # ----------------------------
 
-API_URL = "http://SEU_SERVIDOR/detections"
+API_URL = "https://r5n6ko20ii.execute-api.us-east-2.amazonaws.com/detections"
+API_ENABLED = False
+API_TIMEOUT_SECONDS = 5
 
 RADAR_ID = "RADVEM-001"

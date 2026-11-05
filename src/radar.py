@@ -2,9 +2,6 @@ import math
 import time
 from datetime import datetime
 
-from gpiozero import Servo, DistanceSensor
-from gpiozero.pins.lgpio import LGPIOFactory
-
 import config
 
 
@@ -15,6 +12,8 @@ import config
 class Radar:
 
     def __init__(self):
+        from gpiozero import Servo, DistanceSensor
+        from gpiozero.pins.lgpio import LGPIOFactory
 
         # ----------------------------------------------------
         # GPIO Factory
@@ -44,6 +43,7 @@ class Radar:
             echo=config.ECHO_GPIO,
             max_distance=config.SENSOR_MAX_DISTANCE_CM / 100.0,
             threshold_distance=0.1,
+            queue_len=1,
             pin_factory=self.factory
         )
 
@@ -107,11 +107,52 @@ class Radar:
     # SERVO
     # ========================================================
 
+    @staticmethod
+    def _angle_to_servo_value(angle):
+
+        """
+        Converte um ângulo do intervalo [ANGLE_MIN, ANGLE_MAX]
+        para o valor utilizado pelo gpiozero.Servo (-1 a +1).
+
+        Interpolação linear baseada na configuração:
+
+            ANGLE_MIN -> -1.0
+            ANGLE_MAX -> +1.0
+            ponto médio -> 0.0
+
+        O valor resultante é limitado (clamp) ao intervalo
+        [-1.0, 1.0].
+
+        Retorna 0.0 quando o intervalo configurado é degenerado
+        (ANGLE_MAX <= ANGLE_MIN), evitando divisão por zero.
+        """
+
+        span = config.ANGLE_MAX - config.ANGLE_MIN
+
+        if span <= 0:
+            return 0.0
+
+        valor = 2.0 * (angle - config.ANGLE_MIN) / span - 1.0
+
+        return max(-1.0, min(1.0, valor))
+
+
     def set_angle(self, angle):
 
         """
-        Converte um ângulo de 0-150 graus para o intervalo
-        utilizado pelo gpiozero.Servo.
+        Posiciona o servo no ângulo informado.
+
+        Utiliza _angle_to_servo_value para converter o ângulo
+        do intervalo [config.ANGLE_MIN, config.ANGLE_MAX] para
+        o valor utilizado pelo gpiozero.Servo (-1 a +1), com
+        interpolação linear baseada na configuração:
+
+            ANGLE_MIN -> -1.0
+            ANGLE_MAX -> +1.0
+            ponto médio -> 0.0
+
+        O valor resultante é limitado (clamp) ao intervalo
+        [-1.0, 1.0] dentro do próprio _angle_to_servo_value.
 
         gpiozero:
             -1 = mínimo
@@ -119,11 +160,7 @@ class Radar:
             +1 = máximo
         """
 
-        valor = (angle / 90.0) - 1.0
-
-        valor = max(-1.0, min(1.0, valor))
-
-        self.servo.value = valor
+        self.servo.value = self._angle_to_servo_value(angle)
 
 
     # ========================================================
@@ -289,9 +326,9 @@ class Radar:
         )
 
 
-        # Pequena espera para o servo chegar à posição
+        # Aguarda o servo e um ciclo completo do sensor ultrassônico.
 
-        time.sleep(0.01)
+        time.sleep(0.06)
 
 
         # Mede distância
@@ -461,3 +498,33 @@ class Radar:
         self.servo.close()
 
         self.factory.close()
+
+
+class SimulatedRadar(Radar):
+    def __init__(self):
+        self.ativo = False
+        self.angulo = config.ANGLE_MIN
+        self.direcao = 1
+        self.detection_id = 0
+        self.on_detection = None
+        self.targets = (
+            (30, 8.0),
+            (75, 14.0),
+            (120, 19.0),
+        )
+
+    def set_angle(self, angle):
+        pass
+
+    def stop(self):
+        self.ativo = False
+
+    def measure_distance(self):
+        tolerance = config.ANGLE_STEP / 2
+        for target_angle, distance in self.targets:
+            if abs(self.angulo - target_angle) <= tolerance:
+                return distance
+        return config.DETECTION_DISTANCE_CM + 1
+
+    def close(self):
+        self.stop()
